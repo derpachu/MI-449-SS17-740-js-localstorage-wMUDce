@@ -2,43 +2,41 @@ var counted = window.localStorage.getItem('count')
 
 if (counted === null || counted === undefined) {
   window.localStorage.setItem('count', 1)
+  counted = 1
 } else {
-  counted = window.localStorage.getItem('count')
   var tempCounter = parseInt(counted)
-
   var newCounter = tempCounter + 1
 
   window.localStorage.setItem('count', newCounter)
+  counted = newCounter
 }
 
-counted = window.localStorage.getItem('count')
 var text = '<h1>counter: ' + counted + '</h1>'
 document.getElementById('displayCount').innerHTML = text
 
+var displayTime = function (state) {
+  if (state === 'day') {
+    document.body.setAttribute('class', 'day-theme')
+  } else {
+    document.body.setAttribute('class', 'night-theme')
+  }
+  return window.localStorage.getItem('theme')
+}
+
 var changeTime = function (state) {
-  if (lightState === 'day') {
+  if (state === 'day') {
     document.body.setAttribute('class', 'night-theme')
     window.localStorage.setItem('theme', 'night')
-    lightState = window.localStorage.getItem('theme')
   } else {
     document.body.setAttribute('class', 'day-theme')
     window.localStorage.setItem('theme', 'day')
-    lightState = window.localStorage.getItem('theme')
   }
-}
-var displayTime = function (state) {
-  if (lightState === 'day') {
-    document.body.setAttribute('class', 'day-theme')
-    lightState = window.localStorage.getItem('theme')
-  } else {
-    document.body.setAttribute('class', 'night-theme')
-    lightState = window.localStorage.getItem('theme')
-  }
+  return window.localStorage.getItem('theme')
 }
 
 var lightState = window.localStorage.getItem('theme')
 
-displayTime(lightState)
+lightState = displayTime(lightState)
 
 if (lightState === null || lightState === undefined) {
   document.body.setAttribute('class', 'day-theme')
@@ -47,7 +45,7 @@ if (lightState === null || lightState === undefined) {
 }
 
 var switcher = function () {
-  changeTime(lightState)
+  lightState = changeTime(lightState)
 }
 
 var buttonPress = document.getElementById('moveTime')
