@@ -15,11 +15,7 @@ counted = window.localStorage.getItem('count')
 var text = '<h1>counter: ' + counted + '</h1>'
 document.getElementById('displayCount').innerHTML = text
 
-document.body.setAttribute('class', 'day-theme')
-window.localStorage.setItem('theme', 'day')
-var lightState = window.localStorage.getItem('theme')
-
-var switcher = function () {
+var changeTime = function (state) {
   if (lightState === 'day') {
     document.body.setAttribute('class', 'night-theme')
     window.localStorage.setItem('theme', 'night')
@@ -29,6 +25,29 @@ var switcher = function () {
     window.localStorage.setItem('theme', 'day')
     lightState = window.localStorage.getItem('theme')
   }
+}
+var displayTime = function (state) {
+  if (lightState === 'day') {
+    document.body.setAttribute('class', 'day-theme')
+    lightState = window.localStorage.getItem('theme')
+  } else {
+    document.body.setAttribute('class', 'night-theme')
+    lightState = window.localStorage.getItem('theme')
+  }
+}
+
+var lightState = window.localStorage.getItem('theme')
+
+displayTime(lightState)
+
+if (lightState === null || lightState === undefined) {
+  document.body.setAttribute('class', 'day-theme')
+  window.localStorage.setItem('theme', 'day')
+  lightState = window.localStorage.getItem('theme')
+}
+
+var switcher = function () {
+  changeTime(lightState)
 }
 
 var buttonPress = document.getElementById('moveTime')
